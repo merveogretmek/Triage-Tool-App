@@ -59,7 +59,33 @@ styles <- HTML(
             font-size: 20px;        # adjust the font size as required
             margin-top: 5px;       # decrease margin from the top
             margin-bottom: 15px;   # increase margin from the bottom
-        }
+  }
+#predict {
+      font-weight: bold;   # Make text bold
+      font-size: 40px !important;    # Increase font size
+}
+   #headerContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #053B50;
+      padding: 15px;
+      margin: 0;
+    }
+    
+    #headerContainer h2 {
+      margin: 0;
+      color: white;
+    }
+
+    #experimentBox {
+    background-color: #053B50;
+    border: 2px solid white;  /* This sets a white border */
+    border-radius: 15px;
+    padding: 10px;
+    margin-left: 20px;
+    color: white;  /* This sets the text color to white */
+}
 "
 )
 
@@ -116,10 +142,11 @@ ui <- fluidPage(
   ),
   
   tags$div(
-    style = "width: 90%; max-width: 1200px; margin: auto;",
-    h1(
-      "A TOOL TO DIAGNOSE & TRIAGE PATIENTS TO URGENT ENDOSCOPY",
-      style = "background-color: #053B50; text-align:center; margin: 0; color: white; padding: 10px"),
+    style = "width: 100%; max-width: 1300px; margin: auto;",
+    div(id="headerContainer",
+        h2("A TOOL TO DIAGNOSE & TRIAGE PATIENTS TO URGENT ENDOSCOPY"),
+        div(id="experimentBox", "Experiment") # This is the "Experiment" box
+    ),
     tags$hr(style = "background-color: #053B50; height: 10px; margin: 0; border: none;"),
     tags$head(
       tags$script(
@@ -129,7 +156,7 @@ ui <- fluidPage(
     tags$hr(style = "border-color: grey; height: 2px;"),
     tags$div(
       h2(
-        "Demographic", style = "font-weight: bold;"
+        "Demographic", style = "font-weight: bold;", 
       ),
       style = "background-color: #EEEEEE; margin: 0; padding: 15px"
     ),
@@ -146,7 +173,8 @@ ui <- fluidPage(
         )
       ),
       column(
-        6,
+        6, 
+        h5(""),
         divFlexContainer(
           "Site:",
           "Site",
@@ -168,9 +196,7 @@ ui <- fluidPage(
       style = "background-color: #EEEEEE; margin: 0; padding: 15px"
     ),
     fluidRow(
-      column(
-        6,
-        
+      column(6,
         # Hematemesis
         divFlexContainer(
           "Hematemesis:",
@@ -193,7 +219,7 @@ ui <- fluidPage(
           "Hematochezia:",
           "Hematochezia",
           "selectInput",
-          choices = c("None", "Copious Blood/Clots", "Small Blood")
+          choices = c("None", "Small Blood", "Copious Blood/Clots")
         ),
         
         # Duration
@@ -238,6 +264,33 @@ ui <- fluidPage(
           inline = TRUE
         ),
         
+        # HR
+        divFlexContainer("Heart Rate:", "HR", "numericInput", value = 75),
+        
+        #SBP
+        divFlexContainer("Systolic BP:", "SBP", "numericInput", value = 120),
+        
+        # Diastolic BP
+        divFlexContainer("Diastolic BP:", "DBP", "numericInput", value = 80),
+        
+        # NG Lavage
+        divFlexContainer(
+          "NG Lavage:",
+          "NG_Lavage",
+          "selectInput",
+          choices = c("NA","Bile", "Coffee Grounds", "Ongoing Hemorrhage")
+        ),
+        # BUN
+        divFlexContainer("Blood Urea Nitrogen (mg/dl):", "BUN", "numericInput", value = 20),
+        
+        # Cr
+        divFlexContainer("Creatinine (mg/dl):", "Cr", "numericInput", value = 1.0),
+        
+        
+      ),
+        
+      column(
+        6,
         # Cirrhosis
         divFlexContainer(
           "Cirrhosis:",
@@ -300,27 +353,7 @@ ui <- fluidPage(
           choices = c("Yes", "No"),
           inline = TRUE
         ),
-      ),
         
-      column(
-        6,
-        
-        # HR
-        divFlexContainer("Heart Rate:", "HR", "numericInput", value = 75),
-        
-        #SBP
-        divFlexContainer("Systolic BP:", "SBP", "numericInput", value = 120),
-        
-        # Diastolic BP
-        divFlexContainer("Diastolic BP:", "DBP", "numericInput", value = 80),
-        
-        # NG Lavage
-        divFlexContainer(
-          "NG Lavage:",
-          "NG_Lavage",
-          "selectInput",
-          choices = c("N/A","Bile", "Coffee Grounds", "Ongoing Hemorrhage")
-        ),
         
         # Rectal Exam
         divFlexContainer(
@@ -343,12 +376,6 @@ ui <- fluidPage(
         
         # Platelets
         divFlexContainer("Platelet Count:", "Plt", "numericInput", value = 150),
-        
-        # BUN
-        divFlexContainer("Blood Urea Nitrogen (mg/dl):", "BUN", "numericInput", value = 20),
-        
-        # Cr
-        divFlexContainer("Creatinine (mg/dl):", "Cr", "numericInput", value = 1.0),
         
         # INR
         divFlexContainer("INR:", "INR", "numericInput", value = 1.0)
