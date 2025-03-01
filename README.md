@@ -51,3 +51,42 @@ install.packages(c(
   "pins"
 ))
 ```
+
+3. Add or Prepare Your Training Data
+
+- The file `createModels.R` references a CSV dataset named `train_data.csv`.
+- Ensure you have a suitable dataset in place if you plan to retrain the models. Place it in your app directory before running `createModels.R`.
+
+4. Run the Application
+
+- Open `app.R` in RStudio or run the command below in your R console:
+
+```r
+shiny::runApp("path/to/your/app.R")
+```
+
+- The application will launch in your web browser.
+- Fill in the clinical data in the UI, then click **Compute** to get predictions, or **Refresh Page** to clear inputs.
+
+## How It Works
+
+1. User Input
+- Clinicians enter demographic and clinical data (hematemesis, melena, vital signs, lab values, etc.).
+- Physician diagnosis fields are also available (e.g., best estimate for the bleeding source, endoscopy necessity, disposition).
+
+2. Model Predictions
+- When **Compute** is clicked, the Shiny server assembles these inputs into a single data frame, then passes the data frame to the four prediction functions in `makePredictions.R`.
+- Each function applies the pre-trained Random Forest (loaded from `createModels.R`) to generate predicted probabilities for each outcome.
+
+3. Results Visualization
+- The predicted probabilities are mapped into a stacked bar plot via the custom plotting functions in `displayPlots.R`.
+- Each plot also displays the **three most important features** for its respective model.
+
+## Disclaimers
+
+This project is intended as a demonstration of a clinical prediction Shiny app using Random Forest models. It is not meant to serve as a replacement for real clinical judgment or as an approved medical device.
+
+If you use actual patient data, ensure compliance with healthcare privacy laws and regulations.
+
+
+Contributions, issues, and feature requests are welcome! Feel free to check the Issues page for tasks that need help or submit your own issue/PR.
